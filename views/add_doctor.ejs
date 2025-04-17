@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Doctor</title>
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css" />
+  </head>
+  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+      <nav
+        class="app-header navbar navbar-expand bg-body"
+        style="min-height: 50px"
+      >
+        <div class="container-fluid"></div>
+      </nav>
+
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <div class="sidebar-brand">
+          <a href="/doctors" class="brand-link">
+            <span class="brand-text fw-light">AdminLTE 4</span>
+          </a>
+        </div>
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <ul
+              class="nav sidebar-menu flex-column"
+              data-lte-toggle="treeview"
+              role="menu"
+              data-accordion="false"
+            >
+              <li class="nav-item">
+                <a href="/doctors" class="nav-link">
+                  <i class="nav-icon fas fa-user-md"></i>
+                  <p>Doctors List</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="app-main">
+        <div class="app-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mt-4">
+                  <div class="card-header">
+                    <h3 class="card-title">Add New Doctor</h3>
+                  </div>
+                  <div class="card-body">
+                    <form
+                      action="/api/doctors"
+                      method="POST"
+                      enctype="multipart/form-data"
+                      id="addDoctorForm"
+                    >
+                      <% if (errors && errors.length > 0) { %>
+                      <div class="alert alert-danger">
+                        <ul>
+                          <% errors.forEach(function(error) { %>
+                          <li><%= error %></li>
+                          <% }); %>
+                        </ul>
+                      </div>
+                      <% } %>
+                      <div class="form-group">
+                        <label for="name">Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="name"
+                          name="name"
+                          value="<%= doctor.name || '' %>"
+                          required
+                        />
+                      </div>
+                      <div class="form-group mt-3">
+                        <label for="profession">Profession</label>
+                        <textarea
+                          class="form-control"
+                          id="profession"
+                          name="profession"
+                          required
+                        >
+<%= doctor.profession || '' %></textarea
+                        >
+                      </div>
+                      <div class="form-group mt-3">
+                        <label for="img">Doctor Image</label>
+                        <input
+                          type="file"
+                          class="form-control"
+                          id="img"
+                          name="img"
+                          accept="image/*"
+                          required
+                        />
+                      </div>
+                      <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                          Add Doctor
+                        </button>
+                        <a href="/doctors" class="btn btn-secondary ms-2"
+                          >Cancel</a
+                        >
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/adminlte/dist/js/adminlte.min.js"></script>
+    <script>
+      document
+        .getElementById("addDoctorForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const formData = new FormData(this);
+
+          fetch(this.action, {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => {
+              if (response.ok) {
+                window.location.href = "/doctors";
+              } else {
+                throw new Error("Failed to add doctor");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Failed to add doctor. Please try again.");
+            });
+        });
+    </script>
+  </body>
+</html>

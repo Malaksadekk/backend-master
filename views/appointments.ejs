@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Appointments</title>
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css" />
+    <style>
+      /* Your custom styles here */
+    </style>
+  </head>
+  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+      <!-- Header -->
+      <nav
+        class="app-header navbar navbar-expand bg-body"
+        style="min-height: 50px"
+      >
+        <div class="container-fluid">
+          <h3>Hospital Admin Dashboard</h3>
+        </div>
+      </nav>
+
+      <!-- Sidebar -->
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <div class="sidebar-brand">
+          <a href="/home" class="brand-link">
+            <span class="brand-text fw-light">Admin Dashboard</span>
+          </a>
+        </div>
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <ul class="nav sidebar-menu flex-column">
+              <li class="nav-item">
+                <a href="/doctors" class="nav-link">
+                  <i class="nav-icon fas fa-user-md"></i>
+                  <p>Doctors</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/blogs" class="nav-link">
+                  <i class="nav-icon fas fa-blog"></i>
+                  <p>Blog Posts</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/services" class="nav-link">
+                  <i class="nav-icon fas fa-cogs"></i>
+                  <p>Services</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/contacts" class="nav-link">
+                  <i class="nav-icon fas fa-envelope"></i>
+                  <p>Contact Messages</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/appointments" class="nav-link">
+                  <i class="nav-icon fas fa-calendar-check"></i>
+                  <p>Appointments</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="app-main">
+        <div class="app-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mt-4">
+                  <div class="card-header">
+                    <h3 class="card-title">Appointments</h3>
+                  </div>
+                  <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Department</th>
+                          <th>Phone Number</th>
+                          <th>Date</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% if (appointments.length === 0) { %>
+                        <tr>
+                          <td colspan="5" class="text-center">
+                            No appointments found.
+                          </td>
+                        </tr>
+                        <% } else { %> <%
+                        appointments.forEach(function(appointment) { %>
+                        <tr id="appointment-<%= appointment._id %>">
+                          <td><%= appointment.name %></td>
+                          <td><%= appointment.department %></td>
+                          <td><%= appointment.phoneNumber %></td>
+                          <td>
+                            <%= new
+                            Date(appointment.datePicker).toLocaleString() %>
+                          </td>
+                          <td>
+                            <a
+                              href="/appointments/<%= appointment._id %>/edit"
+                              class="btn btn-primary btn-sm"
+                              >Edit</a
+                            >
+                            <button
+                              class="btn btn-danger btn-sm"
+                              onclick="deleteAppointment('<%= appointment._id %>')"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                        <% }); %> <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- /.app-content -->
+      </main>
+      <!-- /.app-main -->
+
+      <!-- Scripts -->
+      <script src="/adminlte/dist/js/adminlte.min.js"></script>
+      <script>
+        async function deleteAppointment(id) {
+          if (confirm("Are you sure you want to delete this appointment?")) {
+            try {
+              const response = await fetch(`/api/appointments/${id}`, {
+                method: "DELETE",
+              });
+
+              if (response.ok) {
+                // Remove the deleted row from the table
+                const row = document.getElementById(`appointment-${id}`);
+                if (row) {
+                  row.remove();
+                }
+                alert("Appointment deleted successfully.");
+              } else {
+                const errorMsg = await response.text();
+                alert("Failed to delete the appointment: " + errorMsg);
+              }
+            } catch (error) {
+              console.error("Error:", error);
+              alert("An error occurred while deleting the appointment.");
+            }
+          }
+        }
+      </script>
+    </div>
+  </body>
+</html>

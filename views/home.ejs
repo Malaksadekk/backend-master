@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css" />
+    <style>
+      .info-box {
+        transition: transform 0.3s ease;
+      }
+      .info-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      .management-card {
+        transition: all 0.3s ease;
+        margin-bottom: 2rem;
+        height: 100%;
+        min-height: 280px;
+      }
+      .management-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      .management-card .card-body {
+        padding: 2rem;
+      }
+      .management-card .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+      .management-card .icon-wrapper {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        margin-right: 1rem;
+      }
+      .management-card .icon-wrapper i {
+        font-size: 1.5rem;
+      }
+      .management-card .card-text {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin-bottom: 1.5rem;
+        min-height: 60px;
+      }
+      .management-card .btn {
+        padding: 0.8rem 1.5rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        width: 100%;
+      }
+      .management-card .btn i {
+        transition: transform 0.3s ease;
+      }
+      .management-card .btn:hover i {
+        transform: translateX(5px);
+      }
+    </style>
+  </head>
+  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+      <nav
+        class="app-header navbar navbar-expand bg-body"
+        style="min-height: 50px"
+      >
+        <div class="container-fluid">
+          <h3>Hospital Admin Dashboard</h3>
+          <form action="/logout" method="POST" class="d-flex">
+            <button type="submit" class="btn btn-danger">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </form>
+        </div>
+      </nav>
+
+      <main class="app-main">
+        <div class="app-content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0">Dashboard</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-content">
+          <div class="container-fluid">
+            <!-- Info Boxes -->
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon bg-info"
+                    ><i class="fas fa-user-md"></i
+                  ></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Doctors</span>
+                    <span class="info-box-number">10</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon bg-success"
+                    ><i class="fas fa-blog"></i
+                  ></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Blog Posts</span>
+                    <span class="info-box-number">15</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon bg-warning"
+                    ><i class="fas fa-calendar-check"></i
+                  ></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Appointments</span>
+                    <span class="info-box-number">25</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon bg-danger"
+                    ><i class="fas fa-cogs"></i
+                  ></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Services</span>
+                    <span class="info-box-number">8</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Main Cards -->
+            <div class="row mt-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card management-card">
+                  <div class="card-body">
+                    <h5 class="card-title d-flex align-items-center">
+                      <span class="icon-wrapper bg-primary">
+                        <i class="fas fa-user-md text-white"></i>
+                      </span>
+                      Doctors Management
+                    </h5>
+                    <p class="card-text">
+                      Manage hospital doctors information, specializations, and
+                      schedules
+                    </p>
+                    <a href="/doctors" class="btn btn-primary">
+                      <i class="fas fa-arrow-right"></i> Go to Doctors
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card management-card">
+                  <div class="card-body">
+                    <h5 class="card-title d-flex align-items-center">
+                      <span class="icon-wrapper bg-success">
+                        <i class="fas fa-blog text-white"></i>
+                      </span>
+                      Blog Management
+                    </h5>
+                    <p class="card-text">
+                      Manage blog posts, health articles, and medical content
+                    </p>
+                    <a href="/blogs" class="btn btn-success">
+                      <i class="fas fa-arrow-right"></i> Go to Blogs
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card management-card">
+                  <div class="card-body">
+                    <h5 class="card-title d-flex align-items-center">
+                      <span class="icon-wrapper bg-info">
+                        <i class="fas fa-cogs text-white"></i>
+                      </span>
+                      Services Management
+                    </h5>
+                    <p class="card-text">
+                      Manage hospital services, treatments, and medical
+                      procedures
+                    </p>
+                    <a href="/services" class="btn btn-info">
+                      <i class="fas fa-arrow-right"></i> Go to Services
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card management-card">
+                  <div class="card-body">
+                    <h5 class="card-title d-flex align-items-center">
+                      <span class="icon-wrapper bg-danger">
+                        <i class="fas fa-cogs text-white"></i>
+                      </span>
+                      Contact Management
+                    </h5>
+                    <p class="card-text">Manage contactUs forms</p>
+                    <a href="/contacts" class="btn btn-danger">
+                      <i class="fas fa-arrow-right"></i> Go to Services
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card management-card">
+                  <div class="card-body">
+                    <h5 class="card-title d-flex align-items-center">
+                      <span class="icon-wrapper bg-warning">
+                        <i class="fas fa-cogs text-white"></i>
+                      </span>
+                      Contact Management
+                    </h5>
+                    <p class="card-text">Manage contactUs forms</p>
+                    <a href="/appointments" class="btn btn-warning">
+                      <i class="fas fa-arrow-right"></i> Go to appointments
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="app-footer">
+        <div class="float-end d-none d-sm-inline">Hospital Admin System</div>
+        <strong
+          >Copyright &copy; 2024
+          <a href="#" class="text-decoration-none">Your Hospital</a>.</strong
+        >
+        All rights reserved.
+      </footer>
+    </div>
+
+    <script src="/adminlte/dist/js/adminlte.min.js"></script>
+  </body>
+</html>
+z

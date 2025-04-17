@@ -1,0 +1,115 @@
+<!-- blog.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog Details</title>
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css" />
+  </head>
+  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+      <nav
+        class="app-header navbar navbar-expand bg-body"
+        style="min-height: 50px"
+      >
+        <div class="container-fluid"></div>
+      </nav>
+
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <div class="sidebar-brand">
+          <a href="/blogs" class="brand-link">
+            <span class="brand-text fw-light">AdminLTE 4</span>
+          </a>
+        </div>
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <ul class="nav sidebar-menu flex-column">
+              <li class="nav-item">
+                <a href="/blogs" class="nav-link">
+                  <i class="nav-icon fas fa-blog"></i>
+                  <p>Blogs List</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="app-main">
+        <div class="app-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mt-4">
+                  <div class="card-header">
+                    <h3 class="card-title">Blog Post Details</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <h2><%= blog.title %></h2>
+                        <p class="text-muted">
+                          Posted on <%= new Date(blog.date).toLocaleDateString()
+                          %>
+                        </p>
+                        <div class="content mt-4"><%= blog.content %></div>
+                      </div>
+                      <div class="col-md-4">
+                        <img
+                          src="/<%= blog.imgSrc %>"
+                          alt="<%= blog.title %>"
+                          class="img-fluid rounded"
+                          onerror="this.src='/placeholder-blog.jpg'"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <a
+                      href="/blogs/<%= blog._id %>/edit"
+                      class="btn btn-warning"
+                      >Edit</a
+                    >
+                    <button
+                      onclick="deleteBlog('<%= blog._id %>')"
+                      class="btn btn-danger"
+                    >
+                      Delete
+                    </button>
+                    <a href="/blogs" class="btn btn-secondary float-end"
+                      >Back to List</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/adminlte/dist/js/adminlte.min.js"></script>
+    <script>
+      function deleteBlog(blogId) {
+        if (confirm("Are you sure you want to delete this blog post?")) {
+          fetch(`/api/blogPosts/${blogId}`, {
+            method: "DELETE",
+          })
+            .then((response) => {
+              if (response.ok) {
+                window.location.href = "/blogs";
+              } else {
+                throw new Error("Failed to delete blog post");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Failed to delete blog post");
+            });
+        }
+      }
+    </script>
+  </body>
+</html>

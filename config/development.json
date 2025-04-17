@@ -1,0 +1,7 @@
+{
+    "name": "My App Development",
+    "jwtPrivateKey": "mySecretKey",
+    "mail_server": {
+        "host": "http://www.myapp-dev.com"
+    }
+}

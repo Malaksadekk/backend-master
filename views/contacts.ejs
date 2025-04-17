@@ -1,0 +1,177 @@
+<!-- views/contacts.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Messages</title>
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css" />
+    <style>
+      table {
+        width: 100%;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      .btn-danger {
+        color: white;
+        background-color: #dc3545;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .btn-danger:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+      <!-- Header -->
+      <nav
+        class="app-header navbar navbar-expand bg-body"
+        style="min-height: 50px"
+      >
+        <div class="container-fluid">
+          <h3>Hospital Admin Dashboard</h3>
+        </div>
+      </nav>
+
+      <!-- Sidebar -->
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <div class="sidebar-brand">
+          <a href="/home" class="brand-link">
+            <span class="brand-text fw-light">Admin Dashboard</span>
+          </a>
+        </div>
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <ul class="nav sidebar-menu flex-column">
+              <li class="nav-item">
+                <a href="/doctors" class="nav-link">
+                  <i class="nav-icon fas fa-user-md"></i>
+                  <p>Doctors</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/blogs" class="nav-link">
+                  <i class="nav-icon fas fa-blog"></i>
+                  <p>Blog Posts</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/services" class="nav-link">
+                  <i class="nav-icon fas fa-cogs"></i>
+                  <p>Services</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/contacts" class="nav-link">
+                  <i class="nav-icon fas fa-envelope"></i>
+                  <p>Contact Messages</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/appointments" class="nav-link ">
+                  <i class="nav-icon fas fa-calendar-check"></i>
+                  <p>Appointments</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="app-main">
+        <div class="app-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mt-4">
+                  <div class="card-header">
+                    <h3 class="card-title">Contact Form Submissions</h3>
+                  </div>
+                  <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>Email</th>
+                          <th>Phone</th>
+                          <th>Subject</th>
+                          <th>Message</th>
+                          <th>Date</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% if (messages.length === 0) { %>
+                        <tr>
+                          <td colspan="6" class="text-center">
+                            No messages found.
+                          </td>
+                        </tr>
+                        <% } else { %> <% messages.forEach(function(message) {
+                        %>
+                        <tr>
+                          <td><%= message.email %></td>
+                          <td><%= message.phone %></td>
+                          <td><%= message.subject %></td>
+                          <td><%= message.message %></td>
+                          <td>
+                            <%= new Date(message.date).toLocaleString() %>
+                          </td>
+                          <td>
+                            <button
+                              class="btn btn-danger btn-sm"
+                              onclick="deleteMessage('<%= message._id %>')"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                        <% }); %> <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/adminlte/dist/js/adminlte.min.js"></script>
+    <script>
+      function deleteMessage(messageId) {
+        if (confirm("Are you sure you want to delete this message?")) {
+          fetch(`/api/contact/${messageId}`, {
+            method: "DELETE",
+          })
+            .then((response) => {
+              if (response.ok) {
+                window.location.reload(); // Reload the page to see updated list
+              } else {
+                alert("Failed to delete the message");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Failed to delete the message");
+            });
+        }
+      }
+    </script>
+  </body>
+</html>

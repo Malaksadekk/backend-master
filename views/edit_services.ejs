@@ -1,0 +1,152 @@
+<!-- edit_service.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Service</title>
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css" />
+  </head>
+  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+      <nav
+        class="app-header navbar navbar-expand bg-body"
+        style="min-height: 50px"
+      >
+        <div class="container-fluid"></div>
+      </nav>
+
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <div class="sidebar-brand">
+          <a href="/services" class="brand-link">
+            <span class="brand-text fw-light">Services Management</span>
+          </a>
+        </div>
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <ul class="nav sidebar-menu flex-column">
+              <li class="nav-item">
+                <a href="/services" class="nav-link">
+                  <i class="nav-icon fas fa-list"></i>
+                  <p>Services List</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="app-main">
+        <div class="app-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mt-4">
+                  <div class="card-header">
+                    <h3 class="card-title">Edit Service</h3>
+                  </div>
+                  <div class="card-body">
+                    <form
+                      action="/api/services/<%= service._id %>"
+                      method="PUT"
+                      enctype="multipart/form-data"
+                      id="editServiceForm"
+                    >
+                      <div class="row">
+                        <div class="col-md-8">
+                          <div class="form-group">
+                            <label for="service">Service Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="service"
+                              name="service"
+                              value="<%= service.service %>"
+                              required
+                            />
+                          </div>
+                          <div class="form-group mt-3">
+                            <label for="description">Description</label>
+                            <textarea
+                              class="form-control"
+                              id="description"
+                              name="description"
+                              rows="6"
+                              required
+                            >
+<%= service.description %></textarea
+                            >
+                          </div>
+                          <div class="form-group mt-3">
+                            <label for="img">Update Image</label>
+                            <input
+                              type="file"
+                              class="form-control"
+                              id="img"
+                              name="img"
+                              accept="image/*"
+                            />
+                            <small class="form-text text-muted"
+                              >Leave empty to keep current image</small
+                            >
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="text-center">
+                            <img
+                              src="/<%= service.img %>"
+                              alt="Current service image"
+                              class="img-fluid rounded mt-3"
+                              style="max-height: 200px"
+                              onerror="this.src='/placeholder-service.jpg'"
+                            />
+                            <p class="mt-2">Current Image</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                          Update Service
+                        </button>
+                        <a href="/services" class="btn btn-secondary ms-2"
+                          >Cancel</a
+                        >
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/adminlte/dist/js/adminlte.min.js"></script>
+    <script>
+      document
+        .getElementById("editServiceForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const formData = new FormData(this);
+
+          fetch(this.action, {
+            method: "PUT",
+            body: formData,
+          })
+            .then((response) => {
+              if (response.ok) {
+                window.location.href = "/services";
+              } else {
+                throw new Error("Failed to update service");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Failed to update service. Please try again.");
+            });
+        });
+    </script>
+  </body>
+</html>

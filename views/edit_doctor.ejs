@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Doctor</title>
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css" />
+  </head>
+  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+      <nav
+        class="app-header navbar navbar-expand bg-body"
+        style="min-height: 50px"
+      >
+        <div class="container-fluid"></div>
+      </nav>
+
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <div class="sidebar-brand">
+          <a href="/doctors" class="brand-link">
+            <span class="brand-text fw-light">AdminLTE 4</span>
+          </a>
+        </div>
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <ul class="nav sidebar-menu flex-column">
+              <li class="nav-item">
+                <a href="/doctors" class="nav-link">
+                  <i class="nav-icon fas fa-user-md"></i>
+                  <p>Doctors List</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="app-main">
+        <div class="app-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mt-4">
+                  <div class="card-header">
+                    <h3 class="card-title">Edit Doctor</h3>
+                  </div>
+                  <div class="card-body">
+                    <form
+                      action="/api/doctors/<%= doctor._id %>"
+                      method="PUT"
+                      enctype="multipart/form-data"
+                      id="editDoctorForm"
+                    >
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="name">Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="name"
+                              name="name"
+                              value="<%= doctor.name %>"
+                              required
+                            />
+                          </div>
+                          <div class="form-group mt-3">
+                            <label for="profession">Profession</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="profession"
+                              name="profession"
+                              value="<%= doctor.profession %>"
+                              required
+                            />
+                          </div>
+                          <div class="form-group mt-3">
+                            <label for="img">Doctor Image</label>
+                            <input
+                              type="file"
+                              class="form-control"
+                              id="img"
+                              name="img"
+                              accept="image/*"
+                            />
+                            <small class="form-text text-muted"
+                              >Leave empty to keep current image</small
+                            >
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="text-center">
+                            <img
+                              src="/<%= doctor.img %>"
+                              alt="Current doctor image"
+                              class="img-fluid rounded mt-3"
+                              style="max-height: 200px"
+                            />
+                            <p class="mt-2">Current Image</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                          Update Doctor
+                        </button>
+                        <a href="/doctors" class="btn btn-secondary ms-2"
+                          >Cancel</a
+                        >
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/adminlte/dist/js/adminlte.min.js"></script>
+    <script>
+      document
+        .getElementById("editDoctorForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const formData = new FormData(this);
+
+          fetch(this.action, {
+            method: "PUT",
+            body: formData,
+          })
+            .then((response) => {
+              if (response.ok) {
+                window.location.href = "/doctors";
+              } else {
+                throw new Error("Failed to update doctor");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Failed to update doctor. Please try again.");
+            });
+        });
+    </script>
+  </body>
+</html>
